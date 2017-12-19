@@ -1,0 +1,116 @@
+#include <cstdio>
+#include <iostream>
+using namespace std;
+struct node {
+	int data;
+	node *next;
+	node *prev;
+};
+struct queue {
+	node *head=NULL;
+	node *tail = NULL;
+	~queue() {
+		while (head != NULL) {
+			node *temp = head;
+			head = head->next;
+			delete temp;
+		}
+	}
+	int shead() {
+		if (head == NULL) {
+			return -1;
+		}
+		return head->data;
+	}
+	int stail() {
+		if (tail == NULL) {
+			return -1;
+		}
+		return tail->data;
+	}
+	void pushhead(int x) {
+		node *temp = new node;
+		temp->data = x;
+		temp->next = head;
+		temp->prev = NULL;
+		if (head != NULL) {
+			head->prev = temp;
+		}
+		else {
+			tail = temp;
+		}
+		head = temp;
+	}
+	void pushtail(int x) {
+		node *temp = new node;
+		temp->data = x;
+		temp->next = NULL;
+		temp->prev = tail;
+		if (tail != NULL) {
+			tail->next = temp;
+		}
+		else {
+			head = temp;
+		}
+		tail = temp;
+	}
+	int pophead() {
+		if (head == NULL) {
+			return -1;
+		}
+		node *temp=head;
+		int t=head->data;
+		head = head->next;
+		if (head != NULL) {
+			head->prev = NULL;
+		}
+		else {
+			tail = NULL;
+		}
+		delete temp;
+		return t;
+	}
+	int poptail() {
+		if (tail == NULL) {
+			return -1;
+		}
+		node *temp = tail;
+		int t = tail->data;
+		tail =tail->prev;
+		if (tail != NULL) {
+			tail->next = NULL;
+		}
+		else {
+			head = NULL;
+		}
+		delete temp;
+		return t;
+	}
+};
+
+int main() {
+	queue s;
+	int c, n;
+	while (0 != 1) {
+		cin>> c;
+		if (c == -1) {
+			break;
+		}
+		s.pushhead(c);
+	}
+	while (0 != 1) {
+		cin >> c;
+		if (c == -1) {
+			break;
+		}
+		s.pushtail(c);
+	}
+	cout<<s.shead() << endl;
+	cout<<s.stail()<< endl;
+	cout << s.pophead()<<endl;
+	cout << s.poptail() << endl;
+	cout << s.shead() << endl;
+	cout << s.stail() << endl;
+	s.~queue();
+	return 0;
+}
