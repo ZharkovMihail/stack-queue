@@ -1,0 +1,61 @@
+#include <cstdio>
+#include <iostream>
+
+using namespace std;
+struct node {
+	int data;
+	node *next;
+};
+
+struct queue {
+	node *head=NULL;
+	~queue() {
+		while (head != NULL) {
+			node *temp = head;
+			head = head->next;
+			delete temp;
+		}
+	}
+	int last() {
+		if (head == NULL) {
+			return -1;
+		}
+		return head->data;
+	}
+	void push(int x) {
+		node *temp = new node;
+		temp->data = x;
+		temp->next = head;
+		head = temp;
+	}
+	int pop() {
+		if (head == NULL) {
+			return -1;
+		}
+		node *temp=head;
+		do {
+			temp = temp->next;
+		} while (temp->next->next != NULL);
+		int t=temp->next->data;	
+		delete temp->next;
+		temp->next = NULL;
+		return t;
+	}
+};
+
+int main() {
+	queue s;
+	int c, n;
+	while (0 != 1) {
+		cin>> c;
+		if (c == -1) {
+			break;
+		}
+		s.push(c);
+	}
+	cout<<s.last() << endl;
+	cout<<s.pop()<< endl;
+	cout << s.pop() << endl;
+	s.~queue();
+	return 0;
+}
